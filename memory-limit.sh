@@ -37,9 +37,10 @@ while true; do
     echo "stress_mem: $stress_mem"
     stress_mem_in_mb=$(echo "scale=0; $stress_mem / 1024" | bc)
     echo "stress_mem_in_mb: $stress_mem_in_mb"
-    fallocate -l "${stress_mem_in_mb}M" /dev/shm/file
-    sleep 300
-    rm /dev/shm/file
+    # 使用 stress 工具直接占用内存
+    stress --vm 1 --vm-bytes ${stress_mem_in_mb}M --vm-hang 300
+    # 或者使用 dd 和 /dev/null 来占用内存（备选方案）
+    # dd if=/dev/zero bs=1M count=${stress_mem_in_mb} | pv -L 1M > /dev/null & sleep 300; kill $!
   else
     sleep 300
   fi

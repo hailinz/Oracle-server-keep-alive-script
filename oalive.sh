@@ -2,7 +2,7 @@
 # by spiritlhl
 # from https://github.com/spiritLHLS/Oracle-server-keep-alive-script
 
-ver="2025.10.20.09.37"
+ver="2025.10.20.09.49"
 cd /root >/dev/null 2>&1
 _red() { echo -e "\033[31m\033[01m$@\033[0m"; }
 _green() { echo -e "\033[32m\033[01m$@\033[0m"; }
@@ -358,6 +358,7 @@ pre_check() {
   check_and_install bc bc
   check_and_install fallocate util-linux
   check_and_install nproc coreutils
+  check_and_install stress stress
   check_cdn_file
 }
 
