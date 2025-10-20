@@ -76,9 +76,10 @@ echo $$ >"${pid_file}"
 # }
 
 high_main() {
-  for ((i = 0; i < $cores; i++)); do
+  for ((i = 0; i < $cores+2; i++)); do
     {
-      dd if=/dev/zero of=/dev/null
+      timeout 6h dd if=/dev/zero of=/dev/null
+      sleep 60
     } &
   done
   wait
@@ -103,5 +104,20 @@ cores=$(nproc)
 #   MIN_INTERVAL=2
 #   low_main
 # fi
-high_main
+
+
+main_service() {
+  while true; do
+    current_hour=$(date +%H)
+    if [ "$current_hour" = "02" ]; then
+      # 只在2点整运行一次
+      if [ "$(date +%M)" = "00" ]; then
+        high_main
+      fi
+    fi
+    sleep 60
+  done
+}
+
+main_service
 rm "${pid_file}"
