@@ -76,7 +76,7 @@ echo $$ >"${pid_file}"
 # }
 
 high_main() {
-  for ((i = 0; i < $cores+2; i++)); do
+  for ((i = 0; i < $cores; i++)); do
     {
       timeout 6h dd if=/dev/zero of=/dev/null
       sleep 60
